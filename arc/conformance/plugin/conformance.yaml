@@ -1,0 +1,15 @@
+sonobuoy-config:
+  driver: Job
+  plugin-name: azure-arc-secrets-store-akv-provider-conformance
+  result-format: junit
+spec:
+  image: stardotstar/arc-plugin:dev
+  imagePullPolicy: Always
+  name: plugin
+  resources: {}
+  volumes:
+  - name: results
+    emptyDir: {}
+  volumeMounts:
+  - mountPath: /tmp/results
+    name: results

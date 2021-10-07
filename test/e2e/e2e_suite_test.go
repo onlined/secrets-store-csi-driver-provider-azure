@@ -5,6 +5,7 @@ package e2e
 
 import (
 	"fmt"
+	"os"
 	"testing"
 
 	"github.com/Azure/secrets-store-csi-driver-provider-azure/test/e2e/framework"
@@ -15,6 +16,7 @@ import (
 	"github.com/Azure/secrets-store-csi-driver-provider-azure/test/e2e/framework/pod"
 
 	. "github.com/onsi/ginkgo"
+	"github.com/onsi/ginkgo/reporters"
 	. "github.com/onsi/gomega"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/client-go/kubernetes"
@@ -38,7 +40,9 @@ var (
 
 func TestE2E(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "sscdproviderazure")
+	// adding JUnitReporter for arc conformance test. If filepath is empty, it will not produce xml output.
+	junitReporter := reporters.NewJUnitReporter(os.Getenv("JUNIT_OUTPUT_FILEPATH"))
+	RunSpecsWithDefaultAndCustomReporters(t, "sscdproviderazure", []Reporter{junitReporter})
 }
 
 var _ = BeforeSuite(func() {
